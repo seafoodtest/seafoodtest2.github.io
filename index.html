@@ -153,6 +153,36 @@
             text-align: center;
             animation: fadeIn 0.5s ease-in-out;
         }
+        
+        /* 添加 AR 按鈕樣式 */
+        .ar-button {
+            background-color: #4CAF50 !important;
+            color: white !important;
+            padding: 15px 25px !important;
+            border-radius: 25px !important;
+            border: none !important;
+            position: absolute !important;
+            bottom: 20px !important;
+            right: 20px !important;
+            font-size: 16px !important;
+            font-weight: 500 !important;
+            cursor: pointer !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+            transition: all 0.3s ease !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+        }
+        
+        .ar-button:hover {
+            background-color: #45a049 !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2) !important;
+        }
+        
+        .ar-button:active {
+            transform: translateY(0) !important;
+        }
     </style>
 </head>
 <body>
@@ -185,8 +215,11 @@
             auto-rotate
             shadow-intensity="1"
         >
-            <button slot="ar-button" style="background-color: white; border-radius: 4px; border: none; position: absolute; bottom: 16px; right: 16px; ">
-                👋 在 AR 中查看
+            <button slot="ar-button" class="ar-button">
+                <svg height="24" width="24" viewBox="0 0 24 24" fill="white">
+                    <path d="M3 3h18v18H3V3m2 16h14V5H5v14zm4.5-7h2V9h2v3h2l-3 3-3-3z"/>
+                </svg>
+                在 AR 中查看
             </button>
         </model-viewer>
     </div>
@@ -202,8 +235,11 @@
             auto-rotate
             shadow-intensity="1"
         >
-            <button slot="ar-button" style="background-color: white; border-radius: 4px; border: none; position: absolute; bottom: 16px; right: 16px; ">
-                👋 在 AR 中查看
+            <button slot="ar-button" class="ar-button">
+                <svg height="24" width="24" viewBox="0 0 24 24" fill="white">
+                    <path d="M3 3h18v18H3V3m2 16h14V5H5v14zm4.5-7h2V9h2v3h2l-3 3-3-3z"/>
+                </svg>
+                在 AR 中查看
             </button>
         </model-viewer>
     </div>
@@ -219,8 +255,11 @@
             auto-rotate
             shadow-intensity="1"
         >
-            <button slot="ar-button" style="background-color: white; border-radius: 4px; border: none; position: absolute; bottom: 16px; right: 16px; ">
-                👋 在 AR 中查看
+            <button slot="ar-button" class="ar-button">
+                <svg height="24" width="24" viewBox="0 0 24 24" fill="white">
+                    <path d="M3 3h18v18H3V3m2 16h14V5H5v14zm4.5-7h2V9h2v3h2l-3 3-3-3z"/>
+                </svg>
+                在 AR 中查看
             </button>
         </model-viewer>
     </div>
