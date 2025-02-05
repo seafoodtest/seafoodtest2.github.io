@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D/AR 模型瀏覽器</title>
+    
+    <!-- 引入 model-viewer 組件 -->
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
+    
+    <style>
+        model-viewer {
+            width: 100%;
+            height: 100vh; /* 改為視窗高度 */
+            margin: 0;
+            position: absolute; /* 添加絕對定位 */
+            top: 0;
+            left: 0;
+            outline: none; /* 移除外框 */
+        }
+        .model-container {
+            display: none;
+            width: 100%;
+            height: 100vh; /* 容器也設為視窗高度 */
+            position: relative; /* 添加相對定位 */
+            overflow: hidden; /* 防止溢出 */
+        }
+        .model-container.active {
+            display: block;
+        }
+        
+        /* 確保 body 和 html 沒有多餘的邊距 */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        /* 更新操作介紹遮罩層樣式 */
+        .instruction-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            backdrop-filter: blur(5px);
+        }
+        
+        .instruction-content {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            max-width: 80%;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.6s ease-out;
+        }
+        
+        .instruction-overlay.show .instruction-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .instruction-overlay.show {
+            opacity: 1;
+        }
+        
+        .instruction-content h2 {
+            margin-bottom: 25px;
+            color: #333;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .instruction-list {
+            text-align: left;
+            margin: 25px 0;
+        }
+        
+        .instruction-list li {
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            color: #444;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        
+        .instruction-list li::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background-color: #4CAF50;
+            border-radius: 50%;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .close-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-top: 25px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(76, 175, 80, 0.3);
+        }
+        
+        .close-button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        
+        .close-button:active {
+            transform: translateY(0);
+        }
+        
+        .hidden {
+            opacity: 0 !important;
+            pointer-events: none;
+        }
+        
+        /* 添加載入動畫 */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .loading-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- 更新操作介紹遮罩層 -->
+    <div class="instruction-overlay" id="instructionOverlay">
+        <div class="instruction-content">
+            <h2>🎮 3D 模型操作指南</h2>
+            <div class="instruction-list">
+                <li>左鍵拖曳 - 旋轉模型視角</li>
+                <li>右鍵拖曳 - 平移模型位置</li>
+                <li>滾輪縮放 - 調整模型大小</li>
+                <li>雙指縮放 - 手機上調整大小</li>
+                <li>單指拖曳 - 手機上旋轉視角</li>
+                <li>AR 按鈕 - 在實境中查看模型</li>
+            </div>
+            <button class="close-button" onclick="closeInstructions()">
+                開始體驗 3D 模型
+            </button>
+        </div>
+    </div>
+
+    <div id="model1" class="model-container">
+        <model-viewer
+            src="./repository-name/MODEL/untitled.glb"
+            ios-src="./repository-name/MODEL/untitled.usdz"
+            alt="3D 模型 1"
+            ar
+            ar-modes="webxr scene-viewer quick-look"
+            camera-controls
+            auto-rotate
+            shadow-intensity="1"
+        >
+            <button slot="ar-button" style="background-color: white; border-radius: 4px; border: none; position: absolute; bottom: 16px; right: 16px; ">
+                👋 在 AR 中查看
+            </button>
+        </model-viewer>
+    </div>
+
+    <div id="model2" class="model-container">
+        <model-viewer
+            src="./MODEL/can5.glb"
+            ios-src="./MODEL/can5.usdz"
+            alt="3D 模型 2"
+            ar
+            ar-modes="webxr scene-viewer quick-look"
+            camera-controls
+            auto-rotate
+            shadow-intensity="1"
+        >
+            <button slot="ar-button" style="background-color: white; border-radius: 4px; border: none; position: absolute; bottom: 16px; right: 16px; ">
+                👋 在 AR 中查看
+            </button>
+        </model-viewer>
+    </div>
+
+    <div id="model3" class="model-container">
+        <model-viewer
+            src="./MODEL/fg.glb"
+            ios-src="./MODEL/fg.usdz"
+            alt="3D 模型 3"
+            ar
+            ar-modes="webxr scene-viewer quick-look"
+            camera-controls
+            auto-rotate
+            shadow-intensity="1"
+        >
+            <button slot="ar-button" style="background-color: white; border-radius: 4px; border: none; position: absolute; bottom: 16px; right: 16px; ">
+                👋 在 AR 中查看
+            </button>
+        </model-viewer>
+    </div>
+
+    <script>
+        // 從 URL 獲取模型參數
+        function getModelFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('model') || 'model1'; // 默認顯示 model1
+        }
+
+        // 切換模型顯示
+        function changeModel(modelId) {
+            // 更新 URL
+            const newUrl = new URL(window.location.href);
+            newUrl.searchParams.set('model', modelId);
+            window.history.pushState({}, '', newUrl);
+
+            // 隱藏所有模型
+            document.querySelectorAll('.model-container').forEach(container => {
+                container.classList.remove('active');
+            });
+            
+            // 顯示選中的模型
+            document.getElementById(modelId).classList.add('active');
+        }
+
+        // 更新關閉操作說明函數
+        function closeInstructions() {
+            const overlay = document.getElementById('instructionOverlay');
+            overlay.classList.add('hidden');
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 800);
+        }
+
+        // 更新載入事件處理
+        window.addEventListener('load', () => {
+            const modelId = getModelFromURL();
+            changeModel(modelId);
+            
+            const overlay = document.getElementById('instructionOverlay');
+            
+            // 添加一個小延遲來確保過渡效果
+            setTimeout(() => {
+                overlay.classList.add('show');
+            }, 100);
+            
+            // 不使用 localStorage，每次都顯示介紹
+            overlay.style.display = 'flex';
+        });
+    </script>
+</body>
+</html> 
