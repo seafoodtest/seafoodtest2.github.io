@@ -154,14 +154,14 @@
             animation: fadeIn 0.5s ease-in-out;
         }
         
-        /* 添加 AR 按鈕樣式 */
+        /* 更新 AR 按鈕樣式 */
         .ar-button {
             background-color: #4CAF50 !important;
             color: white !important;
             padding: 15px 25px !important;
             border-radius: 25px !important;
             border: none !important;
-            position: absolute !important;
+            position: fixed !important; /* 改為 fixed */
             bottom: 20px !important;
             right: 20px !important;
             font-size: 16px !important;
@@ -172,16 +172,30 @@
             display: flex !important;
             align-items: center !important;
             gap: 8px !important;
+            z-index: 9999 !important; /* 確保按鈕在最上層 */
+            opacity: 1 !important; /* 確保按鈕可見 */
+            visibility: visible !important; /* 確保按鈕可見 */
+            pointer-events: auto !important; /* 確保按鈕可點擊 */
         }
         
-        .ar-button:hover {
-            background-color: #45a049 !important;
-            transform: translateY(-2px) !important;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2) !important;
-        }
-        
-        .ar-button:active {
-            transform: translateY(0) !important;
+        /* 為移動設備優化按鈕大小 */
+        @media (max-width: 768px) {
+            .ar-button {
+                padding: 12px 20px !important;
+                font-size: 14px !important;
+                bottom: 30px !important;
+                right: 50% !important;
+                transform: translateX(50%) !important;
+                white-space: nowrap !important;
+            }
+            
+            .ar-button:hover {
+                transform: translateX(50%) translateY(-2px) !important;
+            }
+            
+            .ar-button:active {
+                transform: translateX(50%) translateY(0) !important;
+            }
         }
     </style>
 </head>
@@ -215,11 +229,11 @@
             auto-rotate
             shadow-intensity="1"
         >
-            <button slot="ar-button" class="ar-button">
+            <button slot="ar-button" class="ar-button" id="ar-button">
                 <svg height="24" width="24" viewBox="0 0 24 24" fill="white">
                     <path d="M3 3h18v18H3V3m2 16h14V5H5v14zm4.5-7h2V9h2v3h2l-3 3-3-3z"/>
                 </svg>
-                在 AR 中查看
+                開啟 AR 模式
             </button>
         </model-viewer>
     </div>
@@ -235,11 +249,11 @@
             auto-rotate
             shadow-intensity="1"
         >
-            <button slot="ar-button" class="ar-button">
+            <button slot="ar-button" class="ar-button" id="ar-button">
                 <svg height="24" width="24" viewBox="0 0 24 24" fill="white">
                     <path d="M3 3h18v18H3V3m2 16h14V5H5v14zm4.5-7h2V9h2v3h2l-3 3-3-3z"/>
                 </svg>
-                在 AR 中查看
+                開啟 AR 模式
             </button>
         </model-viewer>
     </div>
@@ -255,11 +269,11 @@
             auto-rotate
             shadow-intensity="1"
         >
-            <button slot="ar-button" class="ar-button">
+            <button slot="ar-button" class="ar-button" id="ar-button">
                 <svg height="24" width="24" viewBox="0 0 24 24" fill="white">
                     <path d="M3 3h18v18H3V3m2 16h14V5H5v14zm4.5-7h2V9h2v3h2l-3 3-3-3z"/>
                 </svg>
-                在 AR 中查看
+                開啟 AR 模式
             </button>
         </model-viewer>
     </div>
