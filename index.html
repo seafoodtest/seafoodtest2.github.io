@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
     <title>3D/AR 模型瀏覽器</title>
     
     <!-- 引入 model-viewer 組件 -->
@@ -224,7 +227,8 @@
             ios-src="./MODEL/untitled.usdz"
             alt="3D 模型 1"
             ar
-            ar-modes="webxr scene-viewer quick-look"
+            ar-modes="scene-viewer quick-look webxr"
+            ar-scale="fixed"
             camera-controls
             auto-rotate
             shadow-intensity="1"
