@@ -269,10 +269,12 @@
             alt="3D 模型 1"
             ar
             ar-modes="scene-viewer quick-look webxr"
-            ar-scale="fixed"
+            ar-scale="fixed"  /*固定比例 */
             camera-controls
             auto-rotate
             shadow-intensity="1"
+
+
         >
             <button slot="ar-button" class="ar-button" id="ar-button">
                 <svg height="24" width="24" viewBox="0 0 24 24" fill="white">
@@ -343,17 +345,14 @@
             const loadingText = document.getElementById('loadingText');
             
             if (checkCurrentModelLoaded()) {
-                startButton.textContent = '開始體驗 3D 模型';
-                startButton.classList.remove('loading');
-                startButton.classList.add('ready');
-                startButton.disabled = false;
-                loadingText.classList.remove('show');
-            } else {
-                startButton.textContent = '模型載入中...';
-                startButton.classList.add('loading');
-                startButton.classList.remove('ready');
-                startButton.disabled = true;
-                loadingText.classList.add('show');
+                // 添加最小延遲時間，確保用戶能看到載入過程
+                setTimeout(() => {
+                    startButton.textContent = '開始體驗 3D 模型';
+                    startButton.classList.remove('loading');
+                    startButton.classList.add('ready');
+                    startButton.disabled = false;
+                    loadingText.classList.remove('show');
+                }, 800); // 設置最小載入時間為 800ms
             }
         }
 
@@ -380,20 +379,40 @@
             // 顯示選中的模型
             document.getElementById(modelId).classList.add('active');
             
-            // 檢查新模型的載入狀態
-            updateStartButton();
+            // 立即檢查模型載入狀態
+            const currentViewer = document.querySelector(`#${modelId} model-viewer`);
+            if (currentViewer && currentViewer.loaded) {
+                updateStartButton();
+            }
         }
 
         // 監聽模型載入事件
         document.querySelectorAll('model-viewer').forEach(viewer => {
             viewer.addEventListener('load', () => {
                 if (viewer.closest('.model-container').classList.contains('active')) {
-                    updateStartButton();
+                    // 確保模型真正載入完成
+                    requestAnimationFrame(() => {
+                        updateStartButton();
+                    });
+                }
+            });
+            
+            // 添加更多事件監聽
+            viewer.addEventListener('progress', (event) => {
+                if (event.detail.totalProgress === 1) {
+                    if (viewer.closest('.model-container').classList.contains('active')) {
+                        updateStartButton();
+                    }
                 }
             });
             
             viewer.addEventListener('error', (error) => {
                 console.error('Model loading error:', error);
+                // 發生錯誤時也更新按鈕狀態
+                const startButton = document.getElementById('startButton');
+                startButton.textContent = '載入失敗，請重試';
+                startButton.classList.add('loading');
+                startButton.disabled = true;
             });
         });
 
