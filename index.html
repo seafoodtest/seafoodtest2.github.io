@@ -234,8 +234,14 @@
             opacity: 0;
             transition: opacity 0.3s ease;
             white-space: nowrap; /* 防止文字換行 */
-            width: auto; /* 移除固定寬度限制 */
-            text-align: center; /* 文字置中 */
+        }
+        
+        /* 為移動設備優化載入文字位置 */
+        @media (max-width: 768px) {
+            .loading-text {
+                bottom: 120px; /* 增加與底部的距離，避免與 AR 按鈕重疊 */
+                font-size: 12px; /* 稍微縮小字體 */
+            }
         }
         
         .loading-text.show {
