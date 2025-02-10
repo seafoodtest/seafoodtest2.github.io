@@ -164,9 +164,10 @@
             padding: 15px 25px !important;
             border-radius: 25px !important;
             border: none !important;
-            position: fixed !important; /* 改為 fixed */
+            position: absolute !important; /* 改回 absolute */
             bottom: 20px !important;
-            right: 20px !important;
+            left: 50% !important; /* 改為左側50% */
+            transform: translateX(-50%) !important; /* 水平置中 */
             font-size: 16px !important;
             font-weight: 500 !important;
             cursor: pointer !important;
@@ -175,10 +176,13 @@
             display: flex !important;
             align-items: center !important;
             gap: 8px !important;
-            z-index: 9999 !important; /* 確保按鈕在最上層 */
-            opacity: 1 !important; /* 確保按鈕可見 */
-            visibility: visible !important; /* 確保按鈕可見 */
-            pointer-events: auto !important; /* 確保按鈕可點擊 */
+            z-index: 9999 !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            pointer-events: auto !important;
+            width: auto !important; /* 確保按鈕寬度自適應 */
+            min-width: 150px !important; /* 設置最小寬度 */
+            justify-content: center !important; /* 內容置中 */
         }
         
         /* 為移動設備優化按鈕大小 */
@@ -186,18 +190,8 @@
             .ar-button {
                 padding: 12px 20px !important;
                 font-size: 14px !important;
-                bottom: 30px !important;
-                right: 50% !important;
-                transform: translateX(50%) !important;
-                white-space: nowrap !important;
-            }
-            
-            .ar-button:hover {
-                transform: translateX(50%) translateY(-2px) !important;
-            }
-            
-            .ar-button:active {
-                transform: translateX(50%) translateY(0) !important;
+                bottom: 40px !important; /* 增加底部距離 */
+                min-width: 120px !important; /* 調整移動端最小寬度 */
             }
         }
     </style>
