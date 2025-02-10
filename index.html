@@ -194,6 +194,50 @@
                 min-width: 120px !important;
             }
         }
+        
+        /* 添加載入中按鈕樣式 */
+        .close-button.loading {
+            background-color: #cccccc !important;
+            cursor: not-allowed !important;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+        
+        /* 添加按鈕動畫效果 */
+        .close-button.ready {
+            animation: buttonPulse 2s infinite;
+        }
+        
+        @keyframes buttonPulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 3px 10px rgba(76, 175, 80, 0.3);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 5px 15px rgba(76, 175, 80, 0.5);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 3px 10px rgba(76, 175, 80, 0.3);
+            }
+        }
+        
+        /* 添加載入提示文字 */
+        .loading-text {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #666;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .loading-text.show {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -209,9 +253,12 @@
                 <li>單指拖曳 - 手機上旋轉視角</li>
                 <li>AR 按鈕 - 在實境中查看模型</li>
             </div>
-            <button class="close-button" onclick="closeInstructions()">
-                開始體驗 3D 模型
+            <button class="close-button loading" id="startButton" disabled>
+                模型載入中...
             </button>
+            <div class="loading-text" id="loadingText">
+                正在載入 3D 模型，請稍候...
+            </div>
         </div>
     </div>
 
@@ -299,8 +346,46 @@
             document.getElementById(modelId).classList.add('active');
         }
 
+        // 檢查所有模型是否已載入
+        function checkModelsLoaded() {
+            const modelViewers = document.querySelectorAll('model-viewer');
+            let loadedCount = 0;
+            
+            modelViewers.forEach(viewer => {
+                if (viewer.loaded) {
+                    loadedCount++;
+                }
+            });
+            
+            return loadedCount === modelViewers.length;
+        }
+
+        // 更新按鈕狀態
+        function updateStartButton() {
+            const startButton = document.getElementById('startButton');
+            const loadingText = document.getElementById('loadingText');
+            
+            if (checkModelsLoaded()) {
+                startButton.textContent = '開始體驗 3D 模型';
+                startButton.classList.remove('loading');
+                startButton.classList.add('ready');
+                startButton.disabled = false;
+                loadingText.classList.remove('show');
+            }
+        }
+
+        // 監聽模型載入事件
+        document.querySelectorAll('model-viewer').forEach(viewer => {
+            viewer.addEventListener('load', () => {
+                updateStartButton();
+            });
+        });
+
         // 更新關閉操作說明函數
         function closeInstructions() {
+            if (document.getElementById('startButton').disabled) {
+                return;
+            }
             const overlay = document.getElementById('instructionOverlay');
             overlay.classList.add('hidden');
             setTimeout(() => {
@@ -314,14 +399,18 @@
             changeModel(modelId);
             
             const overlay = document.getElementById('instructionOverlay');
+            const loadingText = document.getElementById('loadingText');
             
-            // 添加一個小延遲來確保過渡效果
+            loadingText.classList.add('show');
+            
             setTimeout(() => {
                 overlay.classList.add('show');
             }, 100);
             
-            // 不使用 localStorage，每次都顯示介紹
             overlay.style.display = 'flex';
+            
+            // 初始檢查模型載入狀態
+            updateStartButton();
         });
     </script>
 </body>
