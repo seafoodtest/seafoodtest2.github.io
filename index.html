@@ -253,7 +253,7 @@
                 <li>單指拖曳 - 手機上旋轉視角</li>
                 <li>AR 按鈕 - 在實境中查看模型</li>
             </div>
-            <button class="close-button loading" id="startButton" disabled>
+            <button class="close-button loading" id="startButton" onclick="closeInstructions()">
                 模型載入中...
             </button>
             <div class="loading-text" id="loadingText">
@@ -330,12 +330,47 @@
             return urlParams.get('model') || 'model1'; // 默認顯示 model1
         }
 
+        // 檢查當前顯示的模型是否已載入
+        function checkCurrentModelLoaded() {
+            const modelId = getModelFromURL();
+            const currentViewer = document.querySelector(`#${modelId} model-viewer`);
+            return currentViewer && currentViewer.loaded;
+        }
+
+        // 更新按鈕狀態
+        function updateStartButton() {
+            const startButton = document.getElementById('startButton');
+            const loadingText = document.getElementById('loadingText');
+            
+            if (checkCurrentModelLoaded()) {
+                startButton.textContent = '開始體驗 3D 模型';
+                startButton.classList.remove('loading');
+                startButton.classList.add('ready');
+                startButton.disabled = false;
+                loadingText.classList.remove('show');
+            } else {
+                startButton.textContent = '模型載入中...';
+                startButton.classList.add('loading');
+                startButton.classList.remove('ready');
+                startButton.disabled = true;
+                loadingText.classList.add('show');
+            }
+        }
+
         // 切換模型顯示
         function changeModel(modelId) {
             // 更新 URL
             const newUrl = new URL(window.location.href);
             newUrl.searchParams.set('model', modelId);
             window.history.pushState({}, '', newUrl);
+
+            // 重置按鈕狀態
+            const startButton = document.getElementById('startButton');
+            startButton.textContent = '模型載入中...';
+            startButton.classList.add('loading');
+            startButton.classList.remove('ready');
+            startButton.disabled = true;
+            document.getElementById('loadingText').classList.add('show');
 
             // 隱藏所有模型
             document.querySelectorAll('.model-container').forEach(container => {
@@ -344,40 +379,21 @@
             
             // 顯示選中的模型
             document.getElementById(modelId).classList.add('active');
-        }
-
-        // 檢查所有模型是否已載入
-        function checkModelsLoaded() {
-            const modelViewers = document.querySelectorAll('model-viewer');
-            let loadedCount = 0;
             
-            modelViewers.forEach(viewer => {
-                if (viewer.loaded) {
-                    loadedCount++;
-                }
-            });
-            
-            return loadedCount === modelViewers.length;
-        }
-
-        // 更新按鈕狀態
-        function updateStartButton() {
-            const startButton = document.getElementById('startButton');
-            const loadingText = document.getElementById('loadingText');
-            
-            if (checkModelsLoaded()) {
-                startButton.textContent = '開始體驗 3D 模型';
-                startButton.classList.remove('loading');
-                startButton.classList.add('ready');
-                startButton.disabled = false;
-                loadingText.classList.remove('show');
-            }
+            // 檢查新模型的載入狀態
+            updateStartButton();
         }
 
         // 監聽模型載入事件
         document.querySelectorAll('model-viewer').forEach(viewer => {
             viewer.addEventListener('load', () => {
-                updateStartButton();
+                if (viewer.closest('.model-container').classList.contains('active')) {
+                    updateStartButton();
+                }
+            });
+            
+            viewer.addEventListener('error', (error) => {
+                console.error('Model loading error:', error);
             });
         });
 
