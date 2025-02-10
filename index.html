@@ -223,7 +223,7 @@
             }
         }
         
-        /* 添加載入提示文字 */
+        /* 更新載入提示文字樣式 */
         .loading-text {
             position: absolute;
             bottom: 80px;
@@ -233,6 +233,9 @@
             font-size: 14px;
             opacity: 0;
             transition: opacity 0.3s ease;
+            white-space: nowrap; /* 防止文字換行 */
+            width: auto; /* 移除固定寬度限制 */
+            text-align: center; /* 文字置中 */
         }
         
         .loading-text.show {
