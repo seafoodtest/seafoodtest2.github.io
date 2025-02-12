@@ -278,12 +278,14 @@
             alt="3D 模型 1"
             ar
             ar-modes="scene-viewer quick-look webxr"
-            ar-scale="fixed"  /*固定比例 */
+            //ar-scale="fixed"  /*固定比例 */
+            min-field-of-view="80deg"
+            max-field-of-view="120deg"
+            ar-min-scale="0.8"
+            ar-max-scale="1.2"
             camera-controls
             auto-rotate
             shadow-intensity="1"
-
-
         >
             <button slot="ar-button" class="ar-button" id="ar-button">
                 <svg height="24" width="24" viewBox="0 0 24 24" fill="white">
@@ -301,6 +303,10 @@
             alt="3D 模型 2"
             ar
             ar-modes="webxr scene-viewer quick-look"
+            min-field-of-view="80deg"
+            max-field-of-view="120deg"
+            ar-min-scale="0.8"
+            ar-max-scale="1.2"
             camera-controls
             auto-rotate
             shadow-intensity="1"
@@ -321,6 +327,10 @@
             alt="3D 模型 3"
             ar
             ar-modes="webxr scene-viewer quick-look"
+            min-field-of-view="80deg"
+            max-field-of-view="120deg"
+            ar-min-scale="0.8"
+            ar-max-scale="1.2"
             camera-controls
             auto-rotate
             shadow-intensity="1"
