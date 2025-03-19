@@ -273,8 +273,8 @@
 
     <div id="model1" class="model-container">
         <model-viewer
-            src="./MODEL/garbage can.glb"
-            ios-src="./MODEL/garbage can.usdz"
+            src="./MODEL/garbage can_1.glb"
+            ios-src="./MODEL/garbage can_1 .usdz"
             alt="3D 模型 1"
             ar-scale="fixed"
             ar-modes="scene-viewer quick-look webxr"
@@ -308,7 +308,6 @@
             ios-src="./MODEL/ONINBAG.usdz"
             alt="3D 模型 2"
             ar
-            ar-modes="webxr scene-viewer quick-look"
             ar-modes="scene-viewer quick-look webxr"
             ar-scale="fixed"
             ar-placement="floor"
@@ -326,7 +325,7 @@
             bounds="tight"
             ar-status="not-presenting"
         >
-            <button slot="ar-button" class="ar-button" id="ar-button">
+            <button slot="ar-button" class="ar-button" id="ar-button2">
                 <svg height="24" width="24" viewBox="0 0 24 24" fill="white">
                     <path d="M3 3h18v18H3V3m2 16h14V5H5v14zm4.5-7h2V9h2v3h2l-3 3-3-3z"/>
                 </svg>
@@ -341,7 +340,6 @@
             ios-src="./MODEL/LightBig.usdz"
             alt="3D 模型 3"
             ar
-            ar-modes="webxr scene-viewer quick-look"
             ar-modes="scene-viewer quick-look webxr"
             ar-scale="fixed"
             ar-placement="floor"
@@ -359,31 +357,39 @@
             bounds="tight"
             ar-status="not-presenting"
         >
-     <div id="model3" class="model-container">
-            <model-viewer
-                src="./MODEL/LightMINI.glb"
-                ios-src="./MODEL/LightMINI.usdz"
-                alt="3D 模型 3"
-                ar
-                ar-modes="webxr scene-viewer quick-look"
-                ar-modes="scene-viewer quick-look webxr"
-                ar-scale="fixed"
-                ar-placement="floor"
-                interaction-prompt="none"
-                min-field-of-view="45deg"
-                max-field-of-view="90deg"
-                field-of-view="60deg"
-                interpolation-decay="200"
-                min-scale="0.8"
-                max-scale="1.2"
-                scale="1 1 1"
-                camera-controls
-                auto-rotate
-                shadow-intensity="1"
-                bounds="tight"
-                ar-status="not-presenting"
-            >
-            <button slot="ar-button" class="ar-button" id="ar-button">
+            <button slot="ar-button" class="ar-button" id="ar-button3">
+                <svg height="24" width="24" viewBox="0 0 24 24" fill="white">
+                    <path d="M3 3h18v18H3V3m2 16h14V5H5v14zm4.5-7h2V9h2v3h2l-3 3-3-3z"/>
+                </svg>
+                開啟 AR 模式
+            </button>
+        </model-viewer>
+    </div>
+
+    <div id="model4" class="model-container">
+        <model-viewer
+            src="./MODEL/LightMINI.glb"
+            ios-src="./MODEL/LightMINI.usdz"
+            alt="3D 模型 4"
+            ar
+            ar-modes="scene-viewer quick-look webxr"
+            ar-scale="fixed"
+            ar-placement="floor"
+            interaction-prompt="none"
+            min-field-of-view="45deg"
+            max-field-of-view="90deg"
+            field-of-view="60deg"
+            interpolation-decay="200"
+            min-scale="0.8"
+            max-scale="1.2"
+            scale="1 1 1"
+            camera-controls
+            auto-rotate
+            shadow-intensity="1"
+            bounds="tight"
+            ar-status="not-presenting"
+        >
+            <button slot="ar-button" class="ar-button" id="ar-button4">
                 <svg height="24" width="24" viewBox="0 0 24 24" fill="white">
                     <path d="M3 3h18v18H3V3m2 16h14V5H5v14zm4.5-7h2V9h2v3h2l-3 3-3-3z"/>
                 </svg>
